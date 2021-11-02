@@ -1,0 +1,7 @@
+= form_with model: @question do |form|
+    =form.label :possible_answers
+    =form.text_field :possible_answers, value: ''
+
+    = form.hidden_field(:survey_id, :value => @survey.id)
+    = form.hidden_field(:question_id, :value => @question.id)
+    = form.submit

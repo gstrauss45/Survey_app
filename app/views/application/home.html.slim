@@ -1,0 +1,11 @@
+- if current_user.survey_creator?
+  = render 'surveys/survey', surveys: @surveys
+  br
+  br
+  | New Survey:
+  br
+  = link_to 'create a new survey', new_survey_path
+  br
+- else
+  br
+  = render 'answers/answers', surveys: @surveys

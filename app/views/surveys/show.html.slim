@@ -1,0 +1,48 @@
+- count = 0
+- total_count = 0
+| Title:
+= @survey.title
+= link_to 'Edit', edit_survey_path
+br
+br
+| Questions:
+- @survey.questions.each do |question|
+  br
+  = question.question
+  = link_to 'Edit', edit_question_path(:question_id => question.id, :survey_id => @survey.id)
+  = link_to "Destroy", question_path(:question_id => question.id), method: :delete, data: { confirm: "Are you sure?" }, class: "header_delete"
+  br
+  | answer selection:
+  br
+  - question.possible_answers.each do |answer|
+    = answer
+    br
+    |submission count :
+    = @metrics[count]
+    - if @total_metrics[total_count] != 0
+      | :
+      = (@metrics[count].to_f / @total_metrics[total_count].to_f).round(2) * 100
+      | %
+    - count = count + 1
+    br
+  - if question.custom_responses?
+    br
+    | submitted answers:
+    br
+    - question.answers.each do |answer|
+      = answer.answer
+      br
+  = link_to "add a possible answer", question_path('possible_answers', :question_id => question.id, :survey_id => @survey.id)
+  br
+  - total_count = total_count + 1
+br
+= form_with model: @new_question do |form|
+  = form.label :question
+  = form.text_field :question
+  = form.hidden_field(:survey_id, :value => @survey.id)
+  = form.check_box :other
+  = form.label :other_option
+  = form.check_box :custom_responses
+  = form.label :custom_responses?
+  br
+  = form.submit

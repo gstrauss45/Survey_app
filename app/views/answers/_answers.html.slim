@@ -1,0 +1,5 @@
+br
+| Surveys:
+- surveys.each do |survey|
+  br
+  = link_to survey.title, new_answer_path(param1: survey.id, count: 0)

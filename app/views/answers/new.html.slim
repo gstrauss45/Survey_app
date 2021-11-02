@@ -1,0 +1,13 @@
+=form_with model: @answer do |form|
+  = @survey.questions[@count || 0].question
+  br
+  = form.label :answer
+  - if @survey.questions[@count || 0].custom_responses == true
+    = form.text_field :answer
+  - else
+    = form.select :answer, @survey.questions[@count].possible_answers, {:multiple => true, :size =>@survey.questions[@count].possible_answers.count}
+  br
+  = form.hidden_field(:count, :value => @count)
+  = form.hidden_field(:survey_id, :value => @survey.id)
+  = form.hidden_field(:question_id, :value => @survey.questions[@count || 0].id)
+  = form.submit
